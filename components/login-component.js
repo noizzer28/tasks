@@ -1,3 +1,5 @@
+import { loginPost } from "../api.js";
+
     export function renderLoginComponent ( { appElement, setToken, fetchTodosAndRender }) {
 
             const appHTML = `             
@@ -25,8 +27,15 @@
                   appElement.innerHTML = appHTML;
     
               document.getElementById('login-button').addEventListener("click", () => {
-                setToken("Bearer c8ccbodkdkb8co6gckd8b8cocwdg5g5k5o6g38o3co3cc3co3d03co3bc3b43k37s3c03c83d43co3cw3c03ek");
-                fetchTodosAndRender();
+                loginPost({
+                    login: "noizzer",
+                    password: "qwerty123",
+                }).then((user) => {
+                    console.log(user);
+                    setToken(`Bearer ${user.user.token}`);
+                    fetchTodosAndRender();
+                })
+
               })
               return;
           
