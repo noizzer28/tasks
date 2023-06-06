@@ -6,10 +6,11 @@
 //    * api (+)
 //    * ... TODO
 // 2. Реализовать форму регистрации
-    import { deleteToDos, getToDos, postToDos } from "./api.js";
-    let tasks = [];
 
-    // let token = "Bearer c8ccbodkdkb8co6gckd8b8cocwdg5g5k5o6g38o3co3cc3co3d03co3bc3b43k37s3c03c83d43co3cw3c03ek";
+
+    import { deleteToDos, getToDos, postToDos } from "./api.js";
+    import { renderLoginComponent } from "./components/login-component.js";
+    let tasks = [];
     let token = null;
 
     const host = "https://wedev-api.sky.pro/api/v2/todos";
@@ -25,37 +26,15 @@
     const renderApp = () => {
       const appElement = document.getElementById('app');
       if (token == null) {
-        const appHTML = `             
-        <div class="form">
-                <h3 class="form-title">Войдите в ситему</h3>
-                <div class="form-row">
-                  Логин
-                  <input
-                    type="text"
-                    id="login-input"
-                    class="input"
-                  />
-                </div>
-                <div class="form-row">
-                  Пароль
-                  <input
-                    type="text"
-                    id="login-input"
-                    class="input"
-                  />
-                </div>
-                <br />
-                <button class="button" id="login-button">Войти</button>
-              </div>`
-              appElement.innerHTML = appHTML;
-
-          const enterElement = document.getElementById('login-button').addEventListener("click", () => {
-            token = "Bearer c8ccbodkdkb8co6gckd8b8cocwdg5g5k5o6g38o3co3cc3co3d03co3bc3b43k37s3c03c83d43co3cw3c03ek";
-            fetchTodosAndRender();
-          })
-          return;
+        renderLoginComponent({ 
+            appElement, 
+            setToken: (newToken) => {
+            token = newToken;
+            },
+            fetchTodosAndRender
+        });
+        return;
       }
-
 
       const tasksHtml = tasks.map((task) => {
           return `<li class="task">
@@ -106,18 +85,17 @@
         });
       }
 
-
+      // Добавление задачи в список
       const buttonElement = document.getElementById("add-button")
       buttonElement.addEventListener("click", () => {
             if (textInputElement.value === "") {
               console.log('Пустой ввод')
               return;
             }
-            let text = textInputElement.value;
             buttonElement.disabled = true;
             buttonElement.textContent = "Задача добавляеятся...";
-            // подписываемся на успешное завершение запроса с помощью then
-            postToDos({text, token})
+            postToDos({text: textInputElement.value, 
+                        token})
               .then(() => {
                 textInputElement.value = "";
               })

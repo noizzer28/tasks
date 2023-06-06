@@ -29,11 +29,11 @@ export function deleteToDos ({token, id}) {
         })
 }
 
-export function postToDos ({textValue, token}) {
+export function postToDos ({text, token}) {
     return fetch(host, {
         method: "POST",
         body: JSON.stringify({
-          text: textValue,
+          text
         }),
         headers: {
           Authorization: token,
