@@ -31,7 +31,6 @@ import { loginPost } from "../api.js";
                     login: "noizzer",
                     password: "qwerty123",
                 }).then((user) => {
-                    console.log(user);
                     setToken(`Bearer ${user.user.token}`);
                     fetchTodosAndRender();
                 })
