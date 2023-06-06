@@ -15,11 +15,14 @@ import { loginPost } from "../api.js";
                     </div>
                     <div class="form-row">
                       Пароль
-                      <input
-                        type="text"
-                        id="login-input"
-                        class="input"
-                      />
+                      <form action="">
+                          <input
+                            type="password"
+                            autocomplete="new-password"
+                            id="password-input"
+                            class="input"
+                          />
+                      </form>
                     </div>
                     <br />
                     <button class="button" id="login-button">Войти</button>
@@ -27,13 +30,22 @@ import { loginPost } from "../api.js";
                   appElement.innerHTML = appHTML;
     
               document.getElementById('login-button').addEventListener("click", () => {
+                const login = document.getElementById('login-input').value;
+                const password = document.getElementById('password-input').value;
+                if (login == "" || password == "") {
+                    alert("Введите данные")
+                    return;
+                }
                 loginPost({
-                    login: "noizzer",
-                    password: "qwerty123",
+                    login: login,
+                    password: password,
                 }).then((user) => {
                     setToken(`Bearer ${user.user.token}`);
                     fetchTodosAndRender();
-                })
+                }).catch ((error) => {
+                    alert(error.message)
+                  }) 
+
 
               })
               return;
