@@ -59,5 +59,4 @@ export function loginPost ({login, password}) {
         }
         return response.json();
       })
-    
 }
