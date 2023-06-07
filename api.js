@@ -60,3 +60,20 @@ export function loginPost ({login, password}) {
         return response.json();
       })
 }
+
+export function authPost ({login, password, name}) {
+  return fetch("https://wedev-api.sky.pro/api/user", {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        login,
+        password,
+      }),
+    })
+      .then((response) => {
+        if (response.status == 400) {
+          throw new Error("Пользователь с таким логином уже существует")
+        }
+        return response.json();
+      })
+}
